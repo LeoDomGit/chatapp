@@ -8,7 +8,7 @@ function Login() {
         onError: (error) => console.log('Login Failed:', error)
     });
     useEffect(() => {
-        if (user) {
+        if (user && user.length!=0) {
             axios
                 .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
                     headers: {
@@ -23,6 +23,7 @@ function Login() {
                         
                       })
                       .then((res) => {
+                        console.log(res);
                         if(res.data.check===true){
                             localStorage.setItem('id',res.data.id);
                             window.location.replace('/chat');

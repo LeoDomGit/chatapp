@@ -32,6 +32,17 @@ function Chat() {
       });
     }
   }
+  const handleKeyDown = event => {
+    // console.log('User pressed: ', event.key);
+
+    if (event.key === 'Enter') {
+      // 👇️ your logic here
+      if(mess!=''){
+        sendMessage();
+      }
+      // console.log('Enter key pressed ✅');
+    }
+  };
   const loadChat = () => {
     if (localStorage.getItem("id") && localStorage.getItem("id") !== null) {
       fetch(
@@ -42,12 +53,7 @@ function Chat() {
         .then((res) => {
           setChat(res);
           setMess('');
-          window.scrollTo({ 
-            top: document.documentElement.scrollHeight, 
-            behavior: 'auto'
-            /* you can also use 'auto' behaviour 
-               in place of 'smooth' */
-          }); 
+         
         });
     }
   };
@@ -58,7 +64,7 @@ function Chat() {
     
   }, []);
   useEffect(()=>{
-    endOfMessagesRef.current?.scrollIntoView({ behavior: "instant" });
+    endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });
   },[chat])
   return (
     <div className="wrapper">
@@ -131,9 +137,10 @@ function Chat() {
             className="msger-input"
             placeholder="Chat nào..."
             value={mess}
+            onKeyDown={handleKeyDown}
             onChange={(e)=> setMess(e.target.value)}
           />
-          <button type="submit" onClick={sendMessage} className="msger-send-btn">
+          <button type="submit" onClick={sendMessage}  className="msger-send-btn">
             Gửi
           </button>
         </div>
